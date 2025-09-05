@@ -1,10 +1,8 @@
-# Full Stack AI Career Coach with Next JS, Neon DB, Tailwind, Prisma, Inngest, Shadcn UI Tutorial 🔥🔥
-## https://youtu.be/UbXpRv5ApKA
+# **Sens AI - AI powered career coach for professional success**
+# Made with Next JS, Neon DB, Tailwind, Prisma, Inngest, Shadcn UI.
 
-![sensai](https://github.com/user-attachments/assets/eee79242-4056-4d19-b655-2873788979e1)
 
-### Make sure to create a `.env` file with following variables -
-
+Make sure to create a `.env` file with following variables -
 ```
 DATABASE_URL=
 
@@ -18,3 +16,5 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/onboarding
 
 GEMINI_API_KEY=
 ```
+And then run the command -
+npm run dev
