@@ -2,10 +2,11 @@
 
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import Groq from "groq-sdk";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
+});
 
 export const generateAIInsights = async (industry) => {
   const prompt = `
@@ -28,11 +29,21 @@ export const generateAIInsights = async (industry) => {
           Include at least 5 skills and trends.
         `;
 
-  const result = await model.generateContent(prompt);
-  const response = result.response;
-  const text = response.text();
-  const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
+  const completion = await groq.chat.completions.create({
+    model: "llama-3.3-70b-versatile", // Groq text model [web:91][web:97]
+    messages: [
+      {
+        role: "system",
+        content:
+          "You are a career and labor-market analyst. Respond ONLY with valid JSON that matches the requested schema.",
+      },
+      { role: "user", content: prompt },
+    ],
+    temperature: 0.4,
+  });
 
+  const text = completion.choices?.[0]?.message?.content || "";
+  const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
   return JSON.parse(cleanedText);
 };
 

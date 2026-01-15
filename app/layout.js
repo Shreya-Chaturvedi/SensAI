@@ -24,7 +24,9 @@ export default function RootLayout({ children }) {
         <head>
           <link rel="icon" href="/logo.png" sizes="any" />
         </head>
-        <body className={`${inter.className}`}>
+        <body
+          className={`${inter.className} bg-gradient-to-br from-indigo-950 via-black to-slate-950`}
+        >
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"

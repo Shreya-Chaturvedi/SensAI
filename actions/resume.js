@@ -2,11 +2,12 @@
 
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { revalidatePath } from "next/cache";
+import Groq from "groq-sdk";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
+});
 
 export async function saveResume(content) {
   const { userId } = await auth();
@@ -87,9 +88,21 @@ export async function improveWithAI({ current, type }) {
   `;
 
   try {
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const improvedContent = response.text().trim();
+    const completion = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile", // Groq text model [web:91][web:97]
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are an expert resume writer. Respond ONLY with the improved text, no explanations.",
+        },
+        { role: "user", content: prompt },
+      ],
+      temperature: 0.4,
+    });
+
+    const improvedContent =
+      completion.choices?.[0]?.message?.content?.trim() || "";
     return improvedContent;
   } catch (error) {
     console.error("Error improving content:", error);

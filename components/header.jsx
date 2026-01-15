@@ -27,11 +27,11 @@ export default async function Header() {
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/">
           <Image
-            src={"/logo.png"}
+            src={"/logoAI.png"}
             alt="Sensai Logo"
             width={200}
             height={60}
-            className="h-12 py-1 w-auto object-contain"
+            className="h-16 py-1 w-auto object-contain"
           />
         </Link>
 
@@ -68,18 +68,33 @@ export default async function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
+                  <Link href="/ats-checker" className="flex items-center gap-2">
+                    <PenBox className="h-4 w-4" />
+                    ATS Checker
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
                   <Link
                     href="/ai-cover-letter"
                     className="flex items-center gap-2"
                   >
-                    <PenBox className="h-4 w-4" />
+                    <FileText className="h-4 w-4" />
                     Cover Letter
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/interview" className="flex items-center gap-2">
                     <GraduationCap className="h-4 w-4" />
-                    Interview Prep
+                    Interview-test Prep
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link
+                    href="/mock-interview"
+                    className="flex items-center gap-2"
+                  >
+                    <GraduationCap className="h-4 w-4" />
+                    AI Mock Interview
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
